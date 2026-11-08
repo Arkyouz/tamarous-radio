@@ -1,0 +1,150 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+    id 'idea'
+    // Range les bibliothèques DANS le jar du mod, sous un nom à lui (voir shadowJar plus bas)
+    id 'com.gradleup.shadow' version '9.4.3'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = archives_name
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    // NewPipe Extractor (recherche et son YouTube) et nanojson ne sont publiés que sur JitPack
+    maven {
+        url = 'https://jitpack.io'
+        content { includeGroup 'com.github.TeamNewPipe' }
+    }
+}
+
+sourceSets {
+    // Petit programme de test lancé hors du jeu (tâche « sonde ») : recherche Deezer + son YouTube
+    sonde {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    // Bibliothèques à ranger dans le jar du mod
+    shade
+    implementation.extendsFrom shade
+    sondeImplementation.extendsFrom implementation
+}
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        // Auto-test : ouvre le monde « autotest » de run/saves, pose une radio et vérifie que le son sort
+        selftest {
+            client()
+            programArguments.addAll '--quickPlaySingleplayer', 'autotest', '--width', '1600', '--height', '900'
+            environment 'RADIO_SELFTEST', '1'
+        }
+        configureEach {
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+def libs = [
+        "com.github.TeamNewPipe:NewPipeExtractor:${newpipe_version}",
+        "com.github.TeamNewPipe:nanojson:${nanojson_version}",
+        "org.jsoup:jsoup:1.23.2",
+        "com.google.protobuf:protobuf-javalite:4.36.2",
+        "org.mozilla:rhino:1.8.1",
+        "io.github.jaredmdobson:concentus:1.0.2",
+        "com.googlecode.soundlibs:jlayer:1.0.1.4",
+]
+
+dependencies {
+    libs.each { lib ->
+        // Rangées dans le jar du mod : rien à installer en plus pour les joueurs
+        shade(lib) { transitive = false }
+        // Et visibles par le jeu quand on le lance depuis IntelliJ (runClient, runServer)
+        additionalRuntimeClasspath(lib) { transitive = false }
+    }
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
+}
+
+configurations.configureEach {
+    // jsr305 ne contient que des annotations ; JLayer tire junit pour rien
+    exclude group: 'junit', module: 'junit'
+}
+
+tasks.register('sonde', JavaExec) {
+    group = 'radio'
+    description = 'Teste la recherche et la lecture hors du jeu'
+    classpath = sourceSets.sonde.runtimeClasspath
+    mainClass = 'fr.tamarou.radio.sonde.Sonde'
+    args = (project.findProperty('q') ?: 'angele balance ton quoi').toString().split('\\|') as List
+    notCompatibleWithConfigurationCache('tâche de test manuelle')
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_authors            : mod_authors,
+            mod_version            : mod_version,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Le jar final : le mod + ses bibliothèques renommées. Sans ce renommage, une bibliothèque déjà présente
+// dans un autre mod (WorldEdit embarque Rhino sous org.mozilla) empêcherait le jeu de démarrer.
+tasks.named('shadowJar') {
+    configurations = [project.configurations.shade]
+    archiveClassifier = ''
+    def lib = 'fr.tamarou.radio.lib'
+    relocate 'org.mozilla', "${lib}.mozilla"
+    relocate 'org.jsoup', "${lib}.jsoup"
+    relocate 'com.google.protobuf', "${lib}.protobuf"
+    relocate 'org.schabi.newpipe', "${lib}.newpipe"
+    relocate 'com.grack.nanojson', "${lib}.nanojson"
+    relocate 'io.github.jaredmdobson.concentus', "${lib}.concentus"
+    relocate 'javazoom', "${lib}.javazoom"
+    exclude '**/module-info.class', 'META-INF/versions/**', 'META-INF/maven/**', 'META-INF/*.SF', 'META-INF/*.RSA', 'META-INF/*.DSA'
+    mergeServiceFiles()
+}
+tasks.named('jar') { archiveClassifier = 'slim' }
+tasks.named('assemble') { dependsOn 'shadowJar' }

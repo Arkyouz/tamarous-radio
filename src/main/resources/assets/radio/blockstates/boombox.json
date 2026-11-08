@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "radio:block/boombox" },
+    "facing=east": { "model": "radio:block/boombox", "y": 90 },
+    "facing=south": { "model": "radio:block/boombox", "y": 180 },
+    "facing=west": { "model": "radio:block/boombox", "y": 270 }
+  }
+}

@@ -1,0 +1,1 @@
+{ "type": "minecraft:crafting_shaped", "category": "redstone", "pattern": [ "  I", "INI", "IRI" ], "key": { "I": { "item": "minecraft:iron_ingot" }, "N": { "item": "minecraft:note_block" }, "R": { "item": "minecraft:redstone" } }, "result": { "id": "radio:portable_radio", "count": 1 } }

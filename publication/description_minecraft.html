@@ -1,0 +1,65 @@
+<!--
+  Description CurseForge de Radio 1.0.0.
+  1. Mettre les images de publication/images dans la galerie du projet (Images > Upload).
+  2. Remplacer chaque src="images/....png" par l'adresse de l'image dans la galerie (clic droit > copier l'adresse).
+  3. Coller ce fichier dans l'éditeur de description, en mode « Source » (sinon le HTML s'affiche tel quel).
+-->
+<p style="text-align: center;"><img src="images/banniere.png" alt="Radio" width="900" /></p>
+
+<p>Radio adds radios you can actually listen to. Search for a song, tune in to a web radio, or play your own discs. Everyone nearby hears the same thing at the same time.</p>
+
+<h2>Play any song</h2>
+<p>Type a song or an artist in the search tab, or paste a Spotify or Deezer link (track, album or playlist). Pick a result to play it now, or add it to the queue. The queue is shared, and you can see who added each song.</p>
+<p style="text-align: center;"><img src="images/carte_recherche.png" alt="Search" width="800" /></p>
+
+<h2>Everyone hears the same thing</h2>
+<p>Songs start at 0:00 for everyone. If someone clicks the progress bar to skip ahead, everybody skips with them. There's repeat, shuffle, a volume knob and a range knob. The sound comes from the block, so it gets quieter as you walk away. When a new song starts, its name shows up above your hotbar.</p>
+<p style="text-align: center;"><img src="images/carte_ensemble.png" alt="Now playing" width="800" /></p>
+
+<h2>Live radios</h2>
+<p>Thousands of web radios, sorted by country and genre. Star the ones you like to keep them at the top. The song currently on air is shown in the radio.</p>
+<p style="text-align: center;"><img src="images/carte_radios.png" alt="Live radios" width="800" /></p>
+
+<h2>Your discs</h2>
+<p>Right-click a radio with a music disc to put it inside. It stays there, so you can play it again later or add it to the queue. Shift-click it in the list to take it back. If the radio is broken, the discs drop. The Minecraft tab also has the normal game music (Overworld, Nether, End, Creative, Underwater, Menu).</p>
+<p style="text-align: center;"><img src="images/carte_disques.png" alt="Discs" width="800" /></p>
+
+<h2>Speakers</h2>
+<p>Right-click a radio while holding speakers, then place them anywhere within 64 blocks. All of them play at the same time, and the closest one is the loudest. The wooden speaker has the same range as the radio. The concert speaker goes twice as far.</p>
+<p style="text-align: center;"><img src="images/carte_enceintes.png" alt="Speakers" width="800" /></p>
+
+<h2>Portable radio</h2>
+<p>Same features as the radio blocks, but in your inventory. In headphones mode only you can hear it. In speaker mode, players around you hear it while you hold it. To put a disc in, hold it in your other hand and right-click.</p>
+<p style="text-align: center;"><img src="images/carte_portable.png" alt="Portable radio" width="800" /></p>
+
+<h2>Two radios</h2>
+<p>The wooden radio and the boombox do the same thing, but each one opens its own screen.</p>
+<p style="text-align: center;"><img src="images/carte_styles.png" alt="Two radios" width="800" /></p>
+
+<h2>Crafting</h2>
+<p>The recipes unlock in the recipe book once you have a note block.</p>
+<table>
+<tbody>
+<tr><td><strong>Radio</strong></td><td>iron ingot, 4 planks, note block, redstone</td></tr>
+<tr><td><strong>Boombox</strong></td><td>5 iron ingots, 2 note blocks, redstone</td></tr>
+<tr><td><strong>Portable radio</strong></td><td>5 iron ingots, note block, redstone</td></tr>
+<tr><td><strong>Speaker</strong> (x2)</td><td>8 planks around a note block</td></tr>
+<tr><td><strong>Concert speaker</strong></td><td>6 black wool, 2 iron ingots, note block</td></tr>
+</tbody>
+</table>
+
+<h2>Config</h2>
+<p>Players (Mods menu, Radio): turn radios off, set their volume, hide song names, mute the game music near a radio.</p>
+<p>Servers: turn off song search or web radios, choose who can place radios and who can change the music (everyone, owner and ops, or ops only), max range, max songs per player in the queue.</p>
+
+<h2>Good to know</h2>
+<ul>
+<li>Needed on both client and server. NeoForge 1.21.1.</li>
+<li>Each player's game loads the music itself. The server doesn't send any audio.</li>
+<li>Songs and web radios need an internet connection. Discs and game music work offline.</li>
+<li>Song info and covers come from Deezer. The audio for searched songs comes from YouTube. Web radios come from <a href="https://www.radio-browser.info">radio-browser.info</a>.</li>
+<li>English and French.</li>
+</ul>
+
+<h2>License</h2>
+<p>GPL-3.0. Uses <a href="https://github.com/TeamNewPipe/NewPipeExtractor">NewPipe Extractor</a> (GPL-3.0), <a href="https://github.com/lostromb/concentus">Concentus</a>, JLayer, Rhino, jsoup and protobuf-javalite.</p>

@@ -1,0 +1,5 @@
+{
+  "radio_stream": {
+    "sounds": [ { "name": "minecraft:records/13", "stream": true } ]
+  }
+}

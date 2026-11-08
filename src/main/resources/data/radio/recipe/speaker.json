@@ -1,0 +1,1 @@
+{ "type": "minecraft:crafting_shaped", "category": "redstone", "pattern": [ "PPP", "PNP", "PPP" ], "key": { "P": { "tag": "minecraft:planks" }, "N": { "item": "minecraft:note_block" } }, "result": { "id": "radio:speaker", "count": 2 } }

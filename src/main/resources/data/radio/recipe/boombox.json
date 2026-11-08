@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [ "I I", "NRN", "III" ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "N": { "item": "minecraft:note_block" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "id": "radio:boombox", "count": 1 }
+}

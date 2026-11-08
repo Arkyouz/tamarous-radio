@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    " I ",
+    "PNP",
+    "PRP"
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "P": { "tag": "minecraft:planks" },
+    "N": { "item": "minecraft:note_block" },
+    "R": { "item": "minecraft:redstone" }
+  },
+  "result": { "id": "radio:radio", "count": 1 }
+}
